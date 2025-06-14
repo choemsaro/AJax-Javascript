@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f8fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #button {
+      padding: 10px 20px;
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin: 20px;
+      cursor: pointer;
+    }
+
+    #users {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 280px;
+      text-align: center;
+      padding: 30px 20px;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #d6c4ff;
+      padding: 5px;
+      margin-bottom: 15px;
+    }
+
+    .card h2 {
+      margin: 10px 0 5px;
+      color: #4a4a4a;
+    }
+
+    .card p {
+      margin: 0;
+      color: #888;
+      font-size: 14px;
+    }
+
+    .email-box {
+      background-color: #f1f1f1;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .email-box i {
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <button id="button">Load Github Users</button>
+  <h1>Github Users</h1>
+  <div id="users">Click the button above to load users</div>
+  <script>
+    document.getElementById('button').addEventListener('click', getUser);
+
+    function getUser() {
+      var xml = new XMLHttpRequest();
+      xml.open('GET', 'https://api.github.com/users', true);
+      xml.onload = function () {
+        if (this.status === 200) {
+          var users = JSON.parse(this.responseText);
+          var output = '';
+          for (var i in users.slice(0, 6)) {
+            output += `
+              <div class="card">
+                <img src="${users[i].avatar_url}" alt="Avatar">
+                <h2>${users[i].login}</h2>
+                <p>GitHub User</p>
+                <div class="email-box">
+                  ${users[i].login}@github.com
+                  <i>&#9993;</i>
+                </div>
+              </div>
+            `;
+          }
+          document.getElementById('users').innerHTML = output;
+        }
+      };
+      xml.send();
+    }
+  </script>
+</body>
+</html>

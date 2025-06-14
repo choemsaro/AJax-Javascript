@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      background-color: #f1f1f1;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card li {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Get Products</h1>
+  <div id="product">Loading users...</div>
+
+ <script>
+  function getProducts() {
+  fetch('https://lorndalin.tsdsolution.net/api/DriverController/product')
+    .then(response => {
+      if (!response.ok) throw new Error('Network error');
+      return response.json();
+    })
+    .then(products => {
+      const output = products.map(product => `
+        <div class="card">
+          <img src="${product.image}" width="70" height="70" />
+          <ul>
+            <li><strong>Name:</strong> ${product.name}</li>
+            <li><strong>Code:</strong> ${product.code}</li>
+          </ul>
+        </div>
+      `).join('');
+      document.getElementById('product').innerHTML = output;
+    })
+    .catch(error => {
+      document.getElementById('product').innerHTML = `<p>Error: ${error.message}</p>`;
+    });
+}
+
+ </script>
+</body>
+</html>
+<?php
+public function product_GET()
+{
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        exit;
+    }
+    $datas = $this->db->where('image !=', 'no_image.png')->get('products')->result_array();
+    $this->response($datas, REST_Controller::HTTP_OK);
+}
+?>

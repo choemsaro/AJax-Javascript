@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="button1">Use</button>
+    <button id="button2">Uses</button>
+    <br><br>
+    <h1>User All User</h1>
+    <div id="user1">user1</div>
+    <div id="user2">user2</div>
+    <script>
+       document.getElementById('button1').addEventListener('click',loadUsers);
+       document.getElementById('button2').addEventListener('click',loadUsers2);
+       function loadUsers(){
+            var xhs=new   XMLHttpRequest();
+            xhs.open('GET','use.json',true);
+            xhs.onload=function(){
+                if(this.status==200){
+                    var user =JSON.parse(this.responseText);
+                    console.log(user);
+                    var output='';
+                    output+='<ul>'+
+                    '<li>ID : '+user.id+'</li>'+
+                    '<li>Name : '+user.username+'</li>'+
+                    '<li>Email : '+user.email+'</li>'
+                    document.getElementById('user1').innerHTML=output;
+                }
+            }
+            xhs.send();
+        }
+        
+        function loadUsers2(){
+            var xhs =new XMLHttpRequest();
+            xhs.open('GET','users.json',true);
+            xhs.onload=function(){
+                if(this.status==200){
+                    var users =JSON.parse(this.responseText);
+                    console.log(users);
+                    var output='';
+                    for(var i in users){
+                        output+='<ul>'+
+
+                        '<li>ID : '+users[i].id+'</li>'+
+                        '<li>Name : '+users[i].username+'</li>'+
+                        '<li>Email : '+users[i].email+'</li>'
+                        
+                    }
+                    document.getElementById('user2').innerHTML=output;
+            }
+        }
+        xhs.send();
+    }
+    </script>
+</body>
+</html>

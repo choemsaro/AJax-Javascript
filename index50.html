@@ -1,0 +1,25 @@
+<!-- This part is your PHP display -->
+<?php
+$lsk = "123456"; // Example value
+echo '<span style="display:block;width: 100%;margin-top: 20px;font-size: 30px; ">LSK</span>';
+echo '<span id="lsk_value" style="display:block;width: 100%;margin-top: 40px;font-size: 70px;font-weight: bold;">' . $lsk . '</span>';
+?>
+
+<!-- Input fields -->
+<input type="text" name="name_client" id="name_client" placeholder="Client Name">
+<input type="text" name="text_note" id="text_note" placeholder="Note">
+<button onclick="showInputs()">Show Inputs</button>
+
+<!-- Output display -->
+<div id="output" style="margin-top: 30px; font-size: 20px;"></div>
+
+<script>
+function showInputs() {
+    const nameClient = document.getElementById('name_client').value;
+    const textNote = document.getElementById('text_note').value;
+
+    // Display the input values in a div (you can style this as needed)
+    document.getElementById('output').innerHTML =
+        `<strong>Client Name:</strong> ${nameClient}<br><strong>Note:</strong> ${textNote}`;
+}
+</script>

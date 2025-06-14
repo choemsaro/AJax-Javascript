@@ -1,0 +1,40 @@
+<button id="button">Get Name</button>
+<hr>
+<form action="Process.php" method="GET">
+    <input type="text" name="name">
+    <input type="submit" name="submit">
+</form>
+<h1>AJAX GET Form</h1>
+<form  id="getFrom">
+    <input type="text" name="name1">
+    <input type="submit" name="submit">
+</form>
+<!DOCTYPE html>
+<html>
+<head><title>Login</title></head>
+<body>
+    <h2>Login</h2>
+    <form action="Process.php" method="post">
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+<script>
+    document.getElementById('button').addEventListener('click', getName);
+    document.getElementById('getFrom').addEventListener('submit',getName);
+
+    function getName() {
+        e.preventDefault();
+        var name=document.getElementById('name1').value;
+        var xhs = new XMLHttpRequest();
+        xhs.open('GET', 'Process.php?name='+name, true);
+        xhs.onload = function () {
+            if (this.status === 200) {
+                console.log(this.responseText);
+            }
+        };
+        xhs.send();
+    }
+</script>

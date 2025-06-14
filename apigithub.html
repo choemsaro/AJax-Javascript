@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    #button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      margin: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      background-color: #f1f1f1;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .card li {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <button id="button">Load Github Users</button>
+  <h1>Github Users</h1>
+  <div id="users">Get User</div>
+
+  <script>
+    document.getElementById('button').addEventListener('click', getUser);
+
+    function getUser() {
+      var xml = new XMLHttpRequest();
+      xml.open('GET', 'https://api.github.com/users', true);
+      xml.onload = function () {
+        if (this.status === 200) {
+          var users = JSON.parse(this.responseText);
+          var output = '';
+          for (var i in users) {
+            output += `
+              <div class="card">
+                <img src="${users[i].avatar_url}" width="70" height="70" />
+                <ul>
+                  <li><strong>ID:</strong> ${users[i].id}</li>
+                  <li><strong>Login:</strong> ${users[i].login}</li>
+                </ul>
+              </div>
+            `;
+          }
+          document.getElementById('users').innerHTML = output;
+        }
+      };
+      xml.send();
+    }
+  </script>
+</body>
+</html>
